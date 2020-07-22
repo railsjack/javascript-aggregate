@@ -17,7 +17,7 @@ Array.prototype.distinctBy = function (groupName) {
   });
 };
 
-Array.prototype.sum = function (aggregateFieldName) {
+Array.prototype.sumBy = function (aggregateFieldName) {
   const _this = this.clone2();
   const sum = function (values) {
     let ret = 0;
@@ -31,7 +31,7 @@ Array.prototype.sum = function (aggregateFieldName) {
   };
 };
 
-Array.prototype.average = function (aggregateFieldName) {
+Array.prototype.averageBy = function (aggregateFieldName) {
   const _this = this.clone2();
   const average = function (values) {
     let ret = 0;
@@ -45,7 +45,7 @@ Array.prototype.average = function (aggregateFieldName) {
   };
 };
 
-Array.prototype.max = function (aggregateFieldName) {
+Array.prototype.maxBy = function (aggregateFieldName) {
   const _this = this.clone2();
   const average = function (values) {
     let ret = -Infinity;
@@ -67,7 +67,7 @@ Array.prototype.clone2 = function () {
   return JSON.parse(JSON.stringify(this));
 };
 
-Array.prototype.min = function (aggregateFieldName) {
+Array.prototype.minBy = function (aggregateFieldName) {
   const _this = this.clone2();
   const min = function (values) {
     let ret = Infinity;
@@ -123,9 +123,9 @@ const inputObjects = [
   { name: "Ali4", age: 3 },
 ];
 console.log(input.distinct());
-// console.log(inputObjects.distinctBy("name"));
-// console.log(inputObjects.concatBy("age").groupBy("name"));
-// console.log(inputObjects.min("age").groupBy("name"));
-// console.log(inputObjects.max("age").groupBy("name"));
-// console.log(inputObjects.average("age").groupBy("name"));
-// console.log(inputObjects.sum("age").groupBy("name"));
+console.log(inputObjects.distinctBy("name"));
+console.log(inputObjects.concatBy("age").groupBy("name"));
+console.log(inputObjects.minBy("age").groupBy("name"));
+console.log(inputObjects.maxBy("age").groupBy("name"));
+console.log(inputObjects.averageBy("age").groupBy("name"));
+console.log(inputObjects.sumBy("age").groupBy("name"));
