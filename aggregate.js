@@ -1,15 +1,9 @@
-const onlyUniq = function (item, index, self) {
-  return self.indexOf(item) === index;
+Array.prototype.distinct = function () {
+  return this.filter((item, index, self) => self.indexOf(item) === index);
 };
 
-const distinctBy = function (groupName) {
-  return function (item, index, self) {
-    return self.findIndex((el) => el[groupName] === item[groupName]) === index;
-  };
-};
-
-Array.prototype.toArray = function (aggregateFieldName) {
-  const _this = this.clone();
+Array.prototype.concatBy = function (aggregateFieldName) {
+  const _this = this.clone2();
   return {
     groupBy: function (groupName) {
       return aggregate(_this, aggregateFieldName, groupName);
@@ -17,8 +11,14 @@ Array.prototype.toArray = function (aggregateFieldName) {
   };
 };
 
+Array.prototype.distinctBy = function (groupName) {
+  return this.filter(function (item, index, self) {
+    return self.findIndex((el) => el[groupName] === item[groupName]) === index;
+  });
+};
+
 Array.prototype.sum = function (aggregateFieldName) {
-  const _this = this.clone();
+  const _this = this.clone2();
   const sum = function (values) {
     let ret = 0;
     values.map((value) => (ret += value));
@@ -32,7 +32,7 @@ Array.prototype.sum = function (aggregateFieldName) {
 };
 
 Array.prototype.average = function (aggregateFieldName) {
-  const _this = this.clone();
+  const _this = this.clone2();
   const average = function (values) {
     let ret = 0;
     values.map((value) => (ret += value));
@@ -46,7 +46,7 @@ Array.prototype.average = function (aggregateFieldName) {
 };
 
 Array.prototype.max = function (aggregateFieldName) {
-  const _this = this.clone();
+  const _this = this.clone2();
   const average = function (values) {
     let ret = -Infinity;
     values.map((value) => (ret = value > ret ? value : ret));
@@ -60,11 +60,15 @@ Array.prototype.max = function (aggregateFieldName) {
 };
 
 Array.prototype.clone = function () {
+  return [...this];
+};
+
+Array.prototype.clone2 = function () {
   return JSON.parse(JSON.stringify(this));
 };
 
 Array.prototype.min = function (aggregateFieldName) {
-  const _this = this.clone();
+  const _this = this.clone2();
   const min = function (values) {
     let ret = Infinity;
     values.map((value) => (ret = value < ret ? value : ret));
@@ -118,10 +122,10 @@ const inputObjects = [
   { name: "Ali4", age: 347 },
   { name: "Ali4", age: 3 },
 ];
-// console.log(input.filter(onlyUniq).join());
-// console.log(inputObjects);
-console.log(inputObjects.toArray("age").groupBy("name"));
-console.log(inputObjects.min("age").groupBy("name"));
-console.log(inputObjects.max("age").groupBy("name"));
-console.log(inputObjects.average("age").groupBy("name"));
-console.log(inputObjects.sum("age").groupBy("name"));
+console.log(input.distinct());
+// console.log(inputObjects.distinctBy("name"));
+// console.log(inputObjects.concatBy("age").groupBy("name"));
+// console.log(inputObjects.min("age").groupBy("name"));
+// console.log(inputObjects.max("age").groupBy("name"));
+// console.log(inputObjects.average("age").groupBy("name"));
+// console.log(inputObjects.sum("age").groupBy("name"));
